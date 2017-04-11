@@ -1,0 +1,967 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #272822;
+  background-color: #f92672;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #f8f8f2;
+}
+.highlight .p, .highlight .pi {
+  color: #f8f8f2;
+}
+.highlight .gi {
+  color: #a6e22e;
+}
+.highlight .gd {
+  color: #f92672;
+}
+.highlight .gh {
+  color: #66d9ef;
+  background-color: #272822;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #ae81ff;
+}
+.highlight .kc {
+  color: #fd971f;
+}
+.highlight .kt {
+  color: #fd971f;
+}
+.highlight .kd {
+  color: #fd971f;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #a6e22e;
+}
+.highlight .sr {
+  color: #a1efe4;
+}
+.highlight .si {
+  color: #cc6633;
+}
+.highlight .se {
+  color: #cc6633;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #66d9ef;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #a6e22e;
+}
+.highlight .ss {
+  color: #a6e22e;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <div class="logo-wrapper">
+        <img src="images/logo.png" class="logo" alt="Logo" />        
+      </div>
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="ruby">ruby</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="getting-started">Getting started</h1>
+
+<h3 id="overview">Overview</h3>
+
+<p>Bitpro provide a simple and robust REST-ful API to integrate crypto-currency technologies.</p>
+
+<p>The Bitpro api can perform the following operations:</p>
+
+<ul>
+<li>Create/Manage clients</li>
+<li>Buy for a client</li>
+<li>Witdrawal for a client</li>
+<li>Manage passed transactions</li>
+</ul>
+
+<h2 id="bitpro-api-endpoints">Bitpro API endpoints</h2>
+<pre class="highlight shell"><code>  curl -X GET https://sandbox.bitit.pro/api/v1/ping
+</code></pre><pre class="highlight ruby"><code>  <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://sandbox.bitit.pro/api/v1/ping'</span><span class="p">)</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+      <span class="s2">"status"</span>: <span class="s2">"ok"</span>,
+      <span class="s2">"environment"</span>: <span class="s2">"sandbox"</span>
+  <span class="o">}</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="p">{</span>
+      <span class="s2">"status"</span> <span class="o">=&gt;</span> <span class="s2">"ok"</span><span class="p">,</span>
+      <span class="s2">"environment"</span> <span class="o">=&gt;</span> <span class="s2">"sandbox"</span>
+  <span class="p">}</span>
+</code></pre>
+<p>Bitpro as 2 separates environments available for development and production. For security reasons all the requests are made over HTTPS.</p>
+
+<h3 id="production-environment">Production Environment</h3>
+
+<p>The Bitpro production endpoint is live and used by partners.</p>
+
+<ul>
+<li>Production API: <code class="prettyprint">https://bitit.pro/api/v1</code> <strong><em>(no ready yet)</em></strong></li>
+</ul>
+
+<h3 id="test-sandbox-environment">Test/Sandbox Environment</h3>
+
+<p>The Bitpro test environment is used by default in our examples. It is entirely separate from Bitpro production and there is no overlap in data and accounts. You will need to create a separate account at sandbox.bitit.pro.</p>
+
+<ul>
+<li>Test API: <code class="prettyprint">https://sandbox.pro/api/v1</code></li>
+</ul>
+
+<p>This environment is connected to the Bitcoin TestNet which you can use <a href="http://tbtc.blockr.io/">Blockr</a> to navigate. To get some test coins, try a <a href="http://tpfaucet.appspot.com/">faucet</a> or talk to us.</p>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<p>All errors follow general REST principles. Included in the body of any error response (e.g. non-200 status code) will be an error object of the form:</p>
+
+<blockquote>
+<p>Example json error</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+    <span class="s2">"errors"</span>: <span class="s2">"Not found"</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight ruby"><code><span class="p">{</span>
+    <span class="s2">"errors"</span> <span class="o">=&gt;</span> <span class="s2">"Not found"</span>
+<span class="p">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>errors</td>
+<td>The detailed description of the errors</td>
+</tr>
+</tbody></table>
+
+<h1 id="authentication">Authentication</h1>
+
+<p>Bitpro&rsquo;s authenticaction is via the combination of the <code class="prettyprint">Authorization</code>, <code class="prettyprint">Content-MD5</code> and <code class="prettyprint">Date</code> in order to provide a strong authentication without the possibility of replicater requests.</p>
+
+<blockquote>
+<p>Api/Secret</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="nv">API_KEY</span><span class="o">=</span><span class="s2">"M3175465"</span>
+  <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">"TkLPjz2dzzyoMZdkJqM1qLusyTizYPl0IeX7vHi+17+mlYEjyfnLIgqopAQ8Bnk2QnwcSYa4VuXY384EnGi3tA=="</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="n">api_key</span> <span class="o">=</span> <span class="s2">"M3175465"</span>
+  <span class="n">secret_key</span> <span class="o">=</span> <span class="s2">"TkLPjz2dzzyoMZdkJqM1qLusyTizYPl0IeX7vHi+17+mlYEjyfnLIgqopAQ8Bnk2QnwcSYa4VuXY384EnGi3tA=="</span>
+</code></pre>
+<p>A Merchant will need an <code class="prettyprint">access_key</code> and a <code class="prettyprint">secret_key</code>, thoses key are supplied by Bitit, if you need to generate a keypair, please <a href="http://support.bitit.gift/hc/en-us/requests/new">reach us</a>.</p>
+
+<p>Bitpro API use <a href="https://github.com/diafygi/webcrypto-examples#hmac">HMAC encryption</a> as Authorization on all our endpoints.</p>
+
+<blockquote>
+<p>Date</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span>env <span class="nv">TZ</span><span class="o">=</span>GMT date <span class="s1">'+%a, %d %b %Y %H:%M:%S %Z'</span><span class="sb">`</span>
+  <span class="c">#Mon, 10 Apr 2017 04:43:12 GMT</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="n">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">utc</span><span class="p">.</span><span class="nf">httpdate</span>
+  <span class="c1">#Mon, 10 Apr 2017 04:43:12 GMT</span>
+</code></pre>
+<ol>
+<li>The <code class="prettyprint">Date</code> header is always on GMT timezone with the following format <code class="prettyprint">Mon, 10 Apr 2017 04:43:12 GMT</code></li>
+</ol>
+
+<blockquote>
+<p>Content-MD5</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="nv">PARAMS</span><span class="o">=</span><span class="s2">"address=2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr&amp;amount=0.12"</span>
+
+  <span class="nv">CONTENT_MD5</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n <span class="nv">$PARAMS</span> | openssl md5 -binary | base64<span class="sb">`</span>
+  <span class="c">#FBgiRcA+lHYYgLkAc2JX5g==</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">address: </span><span class="s1">'2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr'</span><span class="p">,</span>
+    <span class="ss">amount: </span><span class="mi">0</span><span class="o">.</span><span class="mi">12</span>
+  <span class="p">}</span>
+
+  <span class="n">encoded_params</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+  <span class="c1">#"address=2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr&amp;amount=0.12"</span>
+
+  <span class="n">content_md5</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">base64digest</span><span class="p">(</span><span class="n">encoded_params</span><span class="p">)</span>
+  <span class="c1">#FBgiRcA+lHYYgLkAc2JX5g==</span>
+</code></pre>
+<ol>
+<li>The <code class="prettyprint">Content-MD5</code> header is a MD5 base64 digest of the url encoded params</li>
+</ol>
+
+<blockquote>
+<p>Signature</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="nv">METHOD</span><span class="o">=</span><span class="s2">"POST"</span>
+  <span class="nv">URI</span><span class="o">=</span><span class="s2">"/api/v1/clients/BT-C962387/withdrawal"</span>
+
+  <span class="nv">CANONICAL_STRING</span><span class="o">=</span><span class="s2">"</span><span class="nv">$METHOD</span><span class="s2">,</span><span class="nv">$CONTENT_MD5</span><span class="s2">,</span><span class="nv">$URI</span><span class="s2">,</span><span class="nv">$DATE</span><span class="s2">"</span>
+  <span class="c">#POST,FBgiRcA+lHYYgLkAc2JX5g==,/api/v1/clients/BT-C962387/withdrawal,Mon, 10 Apr 2017 04:43:12 GMT</span>
+
+  <span class="nv">SIGNATURE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n <span class="nv">$CANONICAL_STRING</span> | openssl sha1 -hmac <span class="nv">$SECRET_KEY</span> -binary | base64<span class="sb">`</span>
+  <span class="c">#W81e6C9NeGYqau1RWhyGtw8YfoY=</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="nb">method</span> <span class="o">=</span> <span class="s2">"POST"</span>
+  <span class="n">uri</span> <span class="o">=</span> <span class="s2">"/api/v1/clients/BT-C962387/withdrawal"</span>
+
+  <span class="n">canonical_string</span> <span class="o">=</span> <span class="p">[</span><span class="nb">method</span><span class="p">,</span> <span class="n">content_md5</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">date</span><span class="p">].</span><span class="nf">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
+  <span class="c1">#"POST,FBgiRcA+lHYYgLkAc2JX5g==,/api/v1/clients/BT-C962387/withdrawal,Mon, 10 Apr 2017 04:43:12 GMT"</span>
+
+  <span class="n">digest</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Digest</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'sha1'</span><span class="p">)</span>
+  <span class="n">signature</span> <span class="o">=</span> <span class="no">Base64</span><span class="p">.</span><span class="nf">strict_encode64</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">HMAC</span><span class="p">.</span><span class="nf">digest</span><span class="p">(</span><span class="n">digest</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">,</span> <span class="n">canonical_string</span><span class="p">))</span>
+  <span class="c1">#W81e6C9NeGYqau1RWhyGtw8YfoY=</span>
+</code></pre>
+<ol>
+<li>The &lsquo;Authorization&rsquo; is a string with the format <code class="prettyprint">Bitpro api_key:signature</code></li>
+</ol>
+
+<p>The signature is a base64 HMAC-SHA-1 of a canonical string the following format <code class="prettyprint">method,content_md5,uri,timestamp</code></p>
+
+<ul>
+<li>the <code class="prettyprint">method</code> in capitalized letters (GET, POST)</li>
+<li>the previously calculated <code class="prettyprint">content_md5</code></li>
+<li>the <code class="prettyprint">uri</code> of the request</li>
+<li>the previously calculated <code class="prettyprint">date</code> as a string</li>
+</ul>
+
+<p>all separeted with commas (,)</p>
+
+<h1 id="rates">Rates</h1>
+
+<p>Rate are the current price of BTC in USD</p>
+<pre class="highlight shell"><code>  curl -X GET https://sandbox.bitit.pro/api/v1/rates
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+    <span class="s2">"time_expires"</span>: 1491824457.468,
+    <span class="s2">"buy_price"</span>: <span class="s2">"1225.10"</span>,
+    <span class="s2">"asset"</span>: <span class="s2">"XBT"</span>
+  <span class="o">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v1/rates</code></p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns the current price for BTC in USD.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>time_expires</td>
+<td>Time</td>
+<td>Timestamp before expiration of the current price</td>
+</tr>
+<tr>
+<td>buy_price</td>
+<td>Number</td>
+<td>Price in USD for 1 unit</td>
+</tr>
+<tr>
+<td>asset</td>
+<td>String</td>
+<td>Name of the asset</td>
+</tr>
+</tbody></table>
+
+<h1 id="clients">Clients</h1>
+
+<p>Clients are the customers of the Merchant (you).
+  Each client have his own unique id (UID) and complementary informations like balances or bitcoin address.</p>
+
+<h2 id="create-a-new-client">Create a new client</h2>
+
+<p>Create a new client</p>
+<pre class="highlight shell"><code>  curl -X POST <span class="se">\</span>
+    -d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="s2">"https://sandbox.bitit.pro/api/v1/clients"</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s2">"Bitpro </span><span class="si">#{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">signature</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s1">'Content-MD5'</span> <span class="o">=&gt;</span> <span class="n">content_md5</span><span class="p">,</span>
+        <span class="s1">'Date'</span> <span class="o">=&gt;</span> <span class="n">date</span>
+      <span class="p">}</span>
+
+      <span class="no">HTTParty</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="s1">'https://sandbox.bitit.pro/api/v1/clients'</span><span class="p">,</span> <span class="ss">body: </span><span class="p">{},</span> <span class="ss">headers: </span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+    <span class="s2">"uid"</span>: <span class="s2">"BT-C798980"</span>,
+    <span class="s2">"bitcoin_address"</span>: <span class="s2">"2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk"</span>,
+    <span class="s2">"balance"</span>: <span class="s2">"0.0"</span>,
+    <span class="s2">"unconfirmed_balance"</span>: <span class="s2">"0.0"</span>
+  <span class="o">}</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="p">{</span>
+    <span class="s2">"uid"</span> <span class="o">=&gt;</span> <span class="s2">"BT-C798980"</span><span class="p">,</span>
+    <span class="s2">"bitcoin_address"</span> <span class="o">=&gt;</span> <span class="s2">"2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk"</span><span class="p">,</span>
+    <span class="s2">"balance"</span> <span class="o">=&gt;</span> <span class="s2">"0.0"</span><span class="p">,</span>
+    <span class="s2">"unconfirmed_balance"</span> <span class="o">=&gt;</span> <span class="s2">"0.0"</span>
+  <span class="p">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v1/clients</code></p>
+
+<h3 id="body-parameters">BODY Parameters</h3>
+
+<p>None.</p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a Client Model object.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>Unique client id</td>
+</tr>
+<tr>
+<td>bitcoin_address</td>
+<td>String</td>
+<td>Client public bitcoin deposit address</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>Number</td>
+<td>Confirmed bitcoin balance</td>
+</tr>
+<tr>
+<td>unconfirmed_balance</td>
+<td>Number</td>
+<td>Unconfirmed bitcoin balance (waiting for validations)</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-client">Get client</h2>
+
+<p>Retrieve an existing client</p>
+<pre class="highlight shell"><code>  curl -X GET <span class="se">\</span>
+    -d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="s2">"https://sandbox.bitit.pro/api/v1/clients/BT-C798980"</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s2">"Bitpro </span><span class="si">#{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">signature</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s1">'Content-MD5'</span> <span class="o">=&gt;</span> <span class="n">content_md5</span><span class="p">,</span>
+        <span class="s1">'Date'</span> <span class="o">=&gt;</span> <span class="n">date</span>
+      <span class="p">}</span>
+
+      <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://sandbox.bitit.pro/api/v1/clients/BT-C798980'</span><span class="p">,</span> <span class="ss">body: </span><span class="p">{},</span> <span class="ss">headers: </span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+    <span class="s2">"uid"</span>: <span class="s2">"BT-C798980"</span>,
+    <span class="s2">"bitcoin_address"</span>: <span class="s2">"2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk"</span>,
+    <span class="s2">"balance"</span>: <span class="s2">"0.0"</span>,
+    <span class="s2">"unconfirmed_balance"</span>: <span class="s2">"0.0"</span>
+  <span class="o">}</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="p">{</span>
+    <span class="s2">"uid"</span> <span class="o">=&gt;</span> <span class="s2">"BT-C798980"</span><span class="p">,</span>
+    <span class="s2">"bitcoin_address"</span> <span class="o">=&gt;</span> <span class="s2">"2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk"</span><span class="p">,</span>
+    <span class="s2">"balance"</span> <span class="o">=&gt;</span> <span class="s2">"0.0"</span><span class="p">,</span>
+    <span class="s2">"unconfirmed_balance"</span> <span class="o">=&gt;</span> <span class="s2">"0.0"</span>
+  <span class="p">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v1/clients/:uid</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<p>None.</p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a Client Model object.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>Unique client id</td>
+</tr>
+<tr>
+<td>bitcoin_address</td>
+<td>String</td>
+<td>Client public bitcoin deposit address</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>Number</td>
+<td>Confirmed bitcoin balance</td>
+</tr>
+<tr>
+<td>unconfirmed_balance</td>
+<td>Number</td>
+<td>Unconfirmed bitcoin balance (waiting for validations)</td>
+</tr>
+</tbody></table>
+
+<h1 id="account-operations">Account Operations</h1>
+
+<p>Each client can do different account operationts like buy, deposit, withdrawal. Each action requieres specific parameters.</p>
+
+<h2 id="buy">Buy</h2>
+
+<p>Buy a USD (United State Dollar) of bitcoin at the current rate</p>
+<pre class="highlight shell"><code>  curl -X POST <span class="se">\</span>
+    -d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="s2">"https://sandbox.bitit.pro/api/v1/clients/BT-C798980/buy"</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"22000700"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"1.22779733"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-10T08:52:08Z"</span>
+  <span class="o">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v1/clients/:uid/buy</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>YES</td>
+<td>UID of the Client</td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">BODY Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>traded_fiat</td>
+<td>Number</td>
+<td>YES</td>
+<td>Amount of BTC to buy in USD</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns informations relative to the trade.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tid</td>
+<td>String</td>
+<td>Unique transaction id</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Number</td>
+<td>Amount of BTC bought</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Date</td>
+<td>Date of the trade</td>
+</tr>
+</tbody></table>
+
+<h3 id="errors">Errors</h3>
+
+<table><thead>
+<tr>
+<th>Response</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Not found</td>
+<td>The uid of the client dosen&rsquo;t exist for this merchant</td>
+</tr>
+<tr>
+<td>Traded fiat must be greater than 0</td>
+<td>Traded fiat amount missing</td>
+</tr>
+</tbody></table>
+
+<h2 id="withdrawal">Withdrawal</h2>
+
+<p>Client can withdrawal an amount of bitcoin to an external bitcoin address</p>
+<pre class="highlight shell"><code>  curl -X POST <span class="se">\</span>
+    -d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+    -H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="s2">"https://sandbox.bitit.pro/api/v1/clients/BT-C798980/withdrawal"</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code>  <span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"39486536"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"0.01"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-10T10:14:12Z"</span>,
+    <span class="s2">"tx_id"</span>: <span class="s2">"7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4"</span>,
+    <span class="s2">"address"</span>: <span class="s2">"2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr"</span>,
+    <span class="s2">"state"</span>: <span class="s2">"processed"</span>
+    <span class="o">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v1/clients/:uid/withdrawal</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>YES</td>
+<td>UID of the Client</td>
+</tr>
+</tbody></table>
+
+<h3 id="body-parameters">BODY Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>YES</td>
+<td>A valid external bitcoin address</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Number</td>
+<td>YES</td>
+<td>Amount of BTC to withdrawal</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns informations relative to the withdrawal.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tid</td>
+<td>String</td>
+<td>Unique transaction id</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Number</td>
+<td>Amount of BTC withdrawal</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Date</td>
+<td>Date of the withdrawal</td>
+</tr>
+<tr>
+<td>tx_id</td>
+<td>String</td>
+<td>Bitcoin transaction id</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Bitcoin destination address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>State of the withdrawal (pending</td>
+</tr>
+</tbody></table>
+
+<h3 id="errors">Errors</h3>
+
+<table><thead>
+<tr>
+<th>Response</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Not found</td>
+<td>The uid of the client dosen&rsquo;t exist for this merchant</td>
+</tr>
+<tr>
+<td>Amount is greater than your available balance</td>
+<td>Amount the client try to withdrawal is greater than the confirmed balance</td>
+</tr>
+<tr>
+<td>Address can&rsquo;t be blank</td>
+<td>Bitcoin destination address is missing</td>
+</tr>
+<tr>
+<td>Address is not a valid bitcoin address</td>
+<td>Bitcoin destination address is wrong</td>
+</tr>
+<tr>
+<td>Amount should not be smaller than 0.05 BTC</td>
+<td>Amount is too small</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-transactions">Get transactions</h2>
+
+<p>All transactions of a client per page of 25</p>
+<pre class="highlight shell"><code>curl -X GET <span class="se">\</span>
+-d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+<span class="s2">"https://sandbox.bitit.pro/api/v1/clients/BT-C798980/transactions"</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">[</span>
+  <span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"39486536"</span>,
+    <span class="s2">"type"</span>: <span class="s2">"bitcoin_withdrawal"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"0.01"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-10T10:14:12Z"</span>,
+    <span class="s2">"tx_id"</span>: <span class="s2">"7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4"</span>,
+    <span class="s2">"address"</span>: <span class="s2">"2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr"</span>,
+    <span class="s2">"state"</span>: <span class="s2">"processed"</span>
+  <span class="o">}</span>,
+  <span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"35728038"</span>,
+    <span class="s2">"type"</span>: <span class="s2">"bitcoin_buy"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"1.28949065"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-06T06:21:52Z"</span>
+  <span class="o">}</span>,
+  <span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"3501712"</span>,
+    <span class="s2">"type"</span>: <span class="s2">"bitcoin_deposit"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"0.1"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-06T06:16:19Z"</span>,
+    <span class="s2">"tx_id"</span>: <span class="s2">"6086da4618f9cdd1e79e83696a13d5f90b8e1f207d7d74997a8c98b3669e43b0"</span>,
+    <span class="s2">"tx_confirmations"</span>:6
+  <span class="o">}</span>,
+  <span class="c">#....</span>
+<span class="o">]</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v1/clients/:uid/transactions</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>YES</td>
+<td>UID of the Client</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>Page number (default: 1)</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a list of Transction Model objects.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tid</td>
+<td>String</td>
+<td>Unique transaction id</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>type of the transaction (bitcoin_withdrawal</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Number</td>
+<td>Amount of the transaction (Can be negative)</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Date</td>
+<td>Date of the withdrawal</td>
+</tr>
+<tr>
+<td>tx_id</td>
+<td>String</td>
+<td>Bitcoin transaction id</td>
+</tr>
+<tr>
+<td>tx_confirmations</td>
+<td>Number</td>
+<td>Number of confirmations for a Deposit</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Bitcoin destination address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>State of the withdrawal (pending</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-transaction">Get transaction</h2>
+
+<p>Get only one specific transaction</p>
+<pre class="highlight shell"><code>curl -X GET <span class="se">\</span>
+-d <span class="s2">"</span><span class="nv">$PARAMS</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Authorization: Bitpro </span><span class="nv">$API_KEY</span><span class="s2">:</span><span class="nv">$SIGNATURE</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Content-MD5: </span><span class="nv">$CONTENT_MD5</span><span class="s2">"</span> <span class="se">\</span>
+-H <span class="s2">"Date: </span><span class="nv">$DATE</span><span class="s2">"</span> <span class="se">\</span>
+<span class="s2">"https://sandbox.bitit.pro/api/v1/clients/BT-C499471/transactions/39486536"</span>
+</code></pre>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+    <span class="s2">"tid"</span>: <span class="s2">"39486536"</span>,
+    <span class="s2">"type"</span>: <span class="s2">"bitcoin_withdrawal"</span>,
+    <span class="s2">"amount"</span>: <span class="s2">"0.01"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-10T10:14:12Z"</span>,
+    <span class="s2">"tx_id"</span>: <span class="s2">"7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4"</span>,
+    <span class="s2">"address"</span>: <span class="s2">"2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr"</span>,
+    <span class="s2">"state"</span>: <span class="s2">"processed"</span>
+  <span class="o">}</span>
+</code></pre>
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v1/clients/:uid/transactions/:tid</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uid</td>
+<td>String</td>
+<td>YES</td>
+<td>UID of the Client</td>
+</tr>
+<tr>
+<td>tid</td>
+<td>String</td>
+<td>YES</td>
+<td>TID of the Transaction</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a Transaction Model object.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Descritption</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tid</td>
+<td>String</td>
+<td>Unique transaction id</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>type of the transaction (bitcoin_withdrawal</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>Number</td>
+<td>Amount of the transaction (Can be negative)</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Date</td>
+<td>Date of the withdrawal</td>
+</tr>
+<tr>
+<td>tx_id</td>
+<td>String</td>
+<td>Bitcoin transaction id</td>
+</tr>
+<tr>
+<td>tx_confirmations</td>
+<td>Number</td>
+<td>Number of confirmations for a Deposit</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Bitcoin destination address</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>State of the withdrawal (pending</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="ruby">ruby</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
