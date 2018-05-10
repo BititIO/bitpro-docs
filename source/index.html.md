@@ -16,10 +16,9 @@ Bitpro provide a simple and robust REST-ful API to integrate crypto-currency tec
 
 The Bitpro api can perform the following operations:
 
-* Create/Manage clients
-* Buy for a client
-* Witdrawal for a client
-* Manage passed transactions
+* Please list operations here
+* Operation1
+* Operation 2
 
 
 ## Bitpro API endpoints
@@ -175,418 +174,63 @@ The signature is a base64 HMAC-SHA-1 of a canonical string the following format 
 * the `uri` of the request
 * the previously calculated `date` as a string
 
-all separeted with commas (,)
+all separated with commas (,)
 
+# Merchant dashboard
 
-# Rates
+Merchant dashboard is available on the following url: [https://bitit.pro/dashboard](https://bitit.pro/dashboard)
 
-Rate are the current price of BTC in USD
+# Payment integration
 
-```bash
-  curl -X GET https://sandbox.bitit.pro/api/v1/rates
+Instructions about the integration of Bitit Pro cryptocurrencies payment solution into a merchant checkout page.
+
+## Prerequisites
+
+Before starting your should have a Bitit pro merchant account with a valid `merchant_id`.
+
+## Using Widget
+
+This "in-page" integration of the payment widget rely on iframe technology and allow you to accept payments directly into your page, without the hassle of redirecting your customer on an external service.
+
+### HTML integration
+```html
+<div>
+  <button id="bitit-iframe-trigger" 
+          data-merchant-id=":merchant-id" 
+          data-product-price=":item-price" 
+          data-buyer-email=":customer-email" 
+          data-lang=":customer-language">
+    Pay with Bitcoin
+  </button>
+</div>
+<script src="https://bitit.pro/libs/iframeBuilderV1.min.js"></script>
 ```
 
-> Response
+* Button tag can be replaced by any html element and styled as you wish using class or inline css
+* Trigger element should be wrapped by another HTML element
+* Trigger element should have the following id: `bitit-iframe-trigger`
+* Trigger element should have the following mandatory data attribute: `merchant-id`
+* Trigger element can have the following optionals data attributes: `product-price` `buyer-email` `lang`
+* If you would like to offer the possibility to close/remove the iframe, you can add another trigger element with the following id: `bitit-iframe-destroy`
 
-```bash
-  {
-    "time_expires": 1491824457.468,
-    "buy_price": "1225.10",
-    "asset": "XBT"
-  }
+Attribute | Type | Description
+--------- | ---- | -----------
+merchant-id|String|Unique merchant id (36 characters long) -- mandatory
+product-price|Float|Item price -- optional
+buyer-email|String|Customer email address -- optional
+lang|String|Customer language (only `fr` and `en` supported) -- optional
+
+## Using direct link
+
+This integration will redirect your customer on an external payment page.
+
+### HTML integration
+```html
+<a href="https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&buyer_email=:buyer-email&lang=:lang" target="_blank" rel="noopener noreferrer external">
+  Pay with Bitcoin
+</a>
 ```
 
-### HTTP Request
-
-`GET /api/v1/rates`
-
-### Response
-
-Returns the current price for BTC in USD.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-time_expires|Time|Timestamp before expiration of the current price
-buy_price|Number|Price in USD for 1 unit
-asset|String|Name of the asset
-
-
-# Clients
-
-  Clients are the customers of the Merchant (you).
-  Each client have his own unique id (UID) and complementary informations like balances or bitcoin address.
-
-## Create a new client
-
-Create a new client
-
-```shell
-  curl -X POST \
-    -d "$PARAMS" \
-    -H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
-    -H "Content-MD5: $CONTENT_MD5" \
-    -H "Date: $DATE" \
-    "https://sandbox.bitit.pro/api/v1/clients"
-```
-```ruby
-  headers = {
-        'Authorization' => "Bitpro #{api_key}:#{signature}",
-        'Content-MD5' => content_md5,
-        'Date' => date
-      }
-
-      HTTParty.post('https://sandbox.bitit.pro/api/v1/clients', body: {}, headers: headers)
-    end
-```
-> Response
-
-```shell
-  {
-    "uid": "BT-C798980",
-    "bitcoin_address": "2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk",
-    "balance": "0.0",
-    "unconfirmed_balance": "0.0"
-  }
-```
-```ruby
-  {
-    "uid" => "BT-C798980",
-    "bitcoin_address" => "2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk",
-    "balance" => "0.0",
-    "unconfirmed_balance" => "0.0"
-  }
-```
-
-### HTTP Request
-
-`POST /api/v1/clients`
-
-### BODY Parameters
-
-None.
-
-### Response
-
-Returns a Client Model object.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-uid|String|Unique client id
-bitcoin_address|String|Client public bitcoin deposit address
-balance|Number|Confirmed bitcoin balance
-unconfirmed_balance|Number|Unconfirmed bitcoin balance (waiting for validations)
-
-
-## Get client
-
-Retrieve an existing client
-
-```shell
-  curl -X GET \
-    -d "$PARAMS" \
-    -H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
-    -H "Content-MD5: $CONTENT_MD5" \
-    -H "Date: $DATE" \
-    "https://sandbox.bitit.pro/api/v1/clients/BT-C798980"
-```
-```ruby
-  headers = {
-        'Authorization' => "Bitpro #{api_key}:#{signature}",
-        'Content-MD5' => content_md5,
-        'Date' => date
-      }
-
-      HTTParty.get('https://sandbox.bitit.pro/api/v1/clients/BT-C798980', body: {}, headers: headers)
-    end
-```
-> Response
-
-```shell
-  {
-    "uid": "BT-C798980",
-    "bitcoin_address": "2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk",
-    "balance": "0.0",
-    "unconfirmed_balance": "0.0"
-  }
-```
-```ruby
-  {
-    "uid" => "BT-C798980",
-    "bitcoin_address" => "2NCJCpBM7ET6oExzzKfWBnFPq8h2Ni2k7Hk",
-    "balance" => "0.0",
-    "unconfirmed_balance" => "0.0"
-  }
-```
-
-### HTTP Request
-
-`GET /api/v1/clients/:uid`
-
-### URL Parameters
-
-None.
-
-### Response
-
-Returns a Client Model object.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-uid|String|Unique client id
-bitcoin_address|String|Client public bitcoin deposit address
-balance|Number|Confirmed bitcoin balance
-unconfirmed_balance|Number|Unconfirmed bitcoin balance (waiting for validations)
-
-
-# Account Operations
-
-Each client can do different account operationts like buy, deposit, withdrawal. Each action requieres specific parameters.
-
-## Buy
-
-Buy a USD (United State Dollar) of bitcoin at the current rate
-
-```shell
-  curl -X POST \
-    -d "$PARAMS" \
-    -H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
-    -H "Content-MD5: $CONTENT_MD5" \
-    -H "Date: $DATE" \
-    "https://sandbox.bitit.pro/api/v1/clients/BT-C798980/buy"
-```
-
-> Response
-
-```shell
-  {
-    "tid": "22000700",
-    "amount": "1.22779733",
-    "created_at": "2017-04-10T08:52:08Z"
-  }
-```
-
-### HTTP Request
-
-`POST /api/v1/clients/:uid/buy`
-
-### URL Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-uid|String|YES|UID of the Client
-
-### BODY Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-traded_fiat|Number|YES|Amount of BTC to buy in USD
-
-### Response
-
-Returns informations relative to the trade.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-tid|String|Unique transaction id
-amount|Number|Amount of BTC bought
-created_at|Date|Date of the trade
-
-### Errors
-
-Response | Description
---------- | -----
-Not found|The uid of the client dosen't exist for this merchant
-Traded fiat must be greater than 0|Traded fiat amount missing
-
-## Withdrawal
-
-Client can withdrawal an amount of bitcoin to an external bitcoin address
-
-```shell
-  curl -X POST \
-    -d "$PARAMS" \
-    -H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
-    -H "Content-MD5: $CONTENT_MD5" \
-    -H "Date: $DATE" \
-    "https://sandbox.bitit.pro/api/v1/clients/BT-C798980/withdrawal"
-```
-
-> Response
-
-```shell
-  {
-    "tid": "39486536",
-    "amount": "0.01",
-    "created_at": "2017-04-10T10:14:12Z",
-    "tx_id": "7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4",
-    "address": "2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr",
-    "state": "processed"
-    }
-```
-
-### HTTP Request
-
-`POST /api/v1/clients/:uid/withdrawal`
-
-### URL Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-uid|String|YES|UID of the Client
-
-### BODY Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-address|String|YES|A valid external bitcoin address
-amount|Number|YES|Amount of BTC to withdrawal
-
-### Response
-
-Returns informations relative to the withdrawal.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-tid|String|Unique transaction id
-amount|Number|Amount of BTC withdrawal
-created_at|Date|Date of the withdrawal
-tx_id|String|Bitcoin transaction id
-address|String|Bitcoin destination address
-state|String|State of the withdrawal (pending|accepted)
-
-### Errors
-
-Response | Description
---------- | -----
-Not found|The uid of the client dosen't exist for this merchant
-Amount is greater than your available balance|Amount the client try to withdrawal is greater than the confirmed balance
-Address can't be blank|Bitcoin destination address is missing
-Address is not a valid bitcoin address|Bitcoin destination address is wrong
-Amount should not be smaller than 0.05 BTC|Amount is too small
-
-
-## Get transactions
-
-All transactions of a client per page of 25
-
-```bash
-curl -X GET \
--d "$PARAMS" \
--H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
--H "Content-MD5: $CONTENT_MD5" \
--H "Date: $DATE" \
-"https://sandbox.bitit.pro/api/v1/clients/BT-C798980/transactions"
-```
-
-> Response
-
-```bash
-[
-  {
-    "tid": "39486536",
-    "type": "bitcoin_withdrawal",
-    "amount": "0.01",
-    "created_at": "2017-04-10T10:14:12Z",
-    "tx_id": "7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4",
-    "address": "2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr",
-    "state": "processed"
-  },
-  {
-    "tid": "35728038",
-    "type": "bitcoin_buy",
-    "amount": "1.28949065",
-    "created_at": "2017-04-06T06:21:52Z"
-  },
-  {
-    "tid": "3501712",
-    "type": "bitcoin_deposit",
-    "amount": "0.1",
-    "created_at": "2017-04-06T06:16:19Z",
-    "tx_id": "6086da4618f9cdd1e79e83696a13d5f90b8e1f207d7d74997a8c98b3669e43b0",
-    "tx_confirmations":6
-  },
-  #....
-]
-```
-
-### HTTP Request
-
-`GET /api/v1/clients/:uid/transactions`
-
-### URL Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-uid|String|YES|UID of the Client
-page|Number|No|Page number (default: 1)
-
-
-### Response
-
-Returns a list of Transction Model objects.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-tid|String|Unique transaction id
-type|String|type of the transaction (bitcoin_withdrawal|bitcoin_buy|bitcoin_deposit)
-amount|Number|Amount of the transaction (Can be negative)
-created_at|Date|Date of the withdrawal
-tx_id|String|Bitcoin transaction id
-tx_confirmations|Number|Number of confirmations for a Deposit
-address|String|Bitcoin destination address
-state|String|State of the withdrawal (pending|accepted)
-
-
-## Get transaction
-
-Get only one specific transaction
-
-```bash
-curl -X GET \
--d "$PARAMS" \
--H "Authorization: Bitpro $API_KEY:$SIGNATURE" \
--H "Content-MD5: $CONTENT_MD5" \
--H "Date: $DATE" \
-"https://sandbox.bitit.pro/api/v1/clients/BT-C499471/transactions/39486536"
-```
-
-> Response
-
-```bash
-{
-    "tid": "39486536",
-    "type": "bitcoin_withdrawal",
-    "amount": "0.01",
-    "created_at": "2017-04-10T10:14:12Z",
-    "tx_id": "7518e03ffd987865aa6c7e456e3796900f7ee8a7cafe57c24108aba16d19d0d4",
-    "address": "2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr",
-    "state": "processed"
-  }
-```
-
-### HTTP Request
-
-`GET /api/v1/clients/:uid/transactions/:tid`
-
-### URL Parameters
-
-Parameter | Type | Required | Descritption
---------- | ---- | -------- | ------------
-uid|String|YES|UID of the Client
-tid|String|YES|TID of the Transaction
-
-
-### Response
-
-Returns a Transaction Model object.
-
-Parameter | Type | Descritption
---------- | ---- | ------------
-tid|String|Unique transaction id
-type|String|type of the transaction (bitcoin_withdrawal|bitcoin_buy|bitcoin_deposit)
-amount|Number|Amount of the transaction (Can be negative)
-created_at|Date|Date of the withdrawal
-tx_id|String|Bitcoin transaction id
-tx_confirmations|Number|Number of confirmations for a Deposit
-address|String|Bitcoin destination address
-state|String|State of the withdrawal (pending|accepted)
+* Url params should be url-encoded
+* Only `merchant-id` is mandatory
+* Link can be styled as you wish using class or inline css
