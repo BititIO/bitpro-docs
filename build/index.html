@@ -280,7 +280,16 @@
 
 <h1 id="merchant-dashboard">Merchant dashboard</h1>
 
-<p>Merchant dashboard is available on the following url: <a href="https://bitit.pro/dashboard">https://bitit.pro/dashboard</a></p>
+<p>Merchant dashboard is available on the following url: <a href="https://bitit.pro/dashboard">https://bitit.pro/dashboard</a>.
+You will be able to look at your customers transactions, manage your merchant settings (webhook urls, domains authorization, custom logo, custom color) and manage your team.</p>
+
+<aside class="notice">
+  Webhook urls need to be configured in order to notify your system with transaction updates.
+</aside>
+
+<aside class="notice">
+  Merchant integration can be customized with a logo or a color, this parameters are available in your dashboard settings page.
+</aside>
 
 <h1 id="payment-integration">Payment integration</h1>
 
@@ -298,6 +307,7 @@
 <pre class="highlight html"><code><span class="nt">&lt;div&gt;</span>
   <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"bitit-iframe-trigger"</span> 
           <span class="na">data-merchant-id=</span><span class="s">":merchant-id"</span> 
+          <span class="na">data-external-order-id=</span><span class="s">":external-order-id"</span>
           <span class="na">data-product-price=</span><span class="s">":item-price"</span> 
           <span class="na">data-buyer-email=</span><span class="s">":customer-email"</span> 
           <span class="na">data-lang=</span><span class="s">":customer-language"</span><span class="nt">&gt;</span>
@@ -311,7 +321,7 @@
 <li>Trigger element should be wrapped by another HTML element</li>
 <li>Trigger element should have the following id: <code class="prettyprint">bitit-iframe-trigger</code></li>
 <li>Trigger element should have the following mandatory data attribute: <code class="prettyprint">merchant-id</code></li>
-<li>Trigger element can have the following optionals data attributes: <code class="prettyprint">product-price</code> <code class="prettyprint">buyer-email</code> <code class="prettyprint">lang</code></li>
+<li>Trigger element can have the following optionals data attributes: <code class="prettyprint">external-order-id</code> <code class="prettyprint">product-price</code> <code class="prettyprint">buyer-email</code> <code class="prettyprint">lang</code></li>
 <li>If you would like to offer the possibility to close/remove the iframe, you can add another trigger element with the following id: <code class="prettyprint">bitit-iframe-destroy</code></li>
 </ul>
 
@@ -325,12 +335,17 @@
 <tr>
 <td>merchant-id</td>
 <td>String</td>
-<td>Unique merchant id (36 characters long) &ndash; mandatory</td>
+<td>Unique merchant id (36 chars long) &ndash; mandatory</td>
 </tr>
 <tr>
 <td>product-price</td>
 <td>Float</td>
 <td>Item price &ndash; optional</td>
+</tr>
+<tr>
+<td>external-order-id</td>
+<td>String</td>
+<td>Custom merchant order id (max 200 chars long) &ndash; optional</td>
 </tr>
 <tr>
 <td>buyer-email</td>
@@ -344,12 +359,16 @@
 </tr>
 </tbody></table>
 
+<aside class="warning">
+  Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
+</aside>
+
 <h2 id="using-direct-link">Using direct link</h2>
 
 <p>This integration will redirect your customer on an external payment page.</p>
 
 <h3 id="html-integration">HTML integration</h3>
-<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&amp;buyer_email=:buyer-email&amp;lang=:lang"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&amp;buyer_email=:buyer-email&amp;lang=:lang&amp;external_order_id=:external-order-id"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
   Pay with Bitcoin
 <span class="nt">&lt;/a&gt;</span>
 </code></pre>
