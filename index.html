@@ -122,14 +122,6 @@
 
 <p>Bitpro provide a simple and robust REST-ful API to integrate crypto-currency technologies.</p>
 
-<p>The Bitpro api can perform the following operations:</p>
-
-<ul>
-<li>Please list operations here</li>
-<li>Operation1</li>
-<li>Operation 2</li>
-</ul>
-
 <h2 id="bitpro-api-endpoints">Bitpro API endpoints</h2>
 <pre class="highlight shell"><code>  curl -X GET https://sandbox.bitit.pro/api/v1/ping
 </code></pre><pre class="highlight ruby"><code>  <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://sandbox.bitit.pro/api/v1/ping'</span><span class="p">)</span>
@@ -156,9 +148,9 @@
 <li>Production API: <code class="prettyprint">https://bitit.pro/api/v1</code> <strong><em>(no ready yet)</em></strong></li>
 </ul>
 
-<h3 id="test-sandbox-environment">Test/Sandbox Environment</h3>
+<h3 id="sandbox-environment">Sandbox Environment</h3>
 
-<p>The Bitpro test environment is used by default in our examples. It is entirely separate from Bitpro production and there is no overlap in data and accounts. You will need to create a separate account at sandbox.bitit.pro.</p>
+<p>The Bitpro sandbox environment is entirely separated from Bitpro production and there is no overlap in data and accounts. You will need to create a sandbox account.</p>
 
 <ul>
 <li>Test API: <code class="prettyprint">https://sandbox.pro/api/v1</code></li>
@@ -166,20 +158,6 @@
 
 <p>This environment is connected to the Bitcoin TestNet which you can use <a href="http://tbtc.blockr.io/">Blockr</a> to navigate. To get some test coins, try a <a href="http://tpfaucet.appspot.com/">faucet</a> or talk to us.</p>
 
-<h2 id="error-handling">Error Handling</h2>
-
-<p>All errors follow general REST principles. Included in the body of any error response (e.g. non-200 status code) will be an error object of the form:</p>
-
-<blockquote>
-<p>Example json error</p>
-</blockquote>
-<pre class="highlight shell"><code><span class="o">{</span>
-    <span class="s2">"errors"</span>: <span class="s2">"Not found"</span>
-<span class="o">}</span>
-</code></pre><pre class="highlight ruby"><code><span class="p">{</span>
-    <span class="s2">"errors"</span> <span class="o">=&gt;</span> <span class="s2">"Not found"</span>
-<span class="p">}</span>
-</code></pre>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -194,89 +172,7 @@
 
 <h1 id="authentication">Authentication</h1>
 
-<p>Bitpro&rsquo;s authenticaction is via the combination of the <code class="prettyprint">Authorization</code>, <code class="prettyprint">Content-MD5</code> and <code class="prettyprint">Date</code> in order to provide a strong authentication without the possibility of replicater requests.</p>
-
-<blockquote>
-<p>Api/Secret</p>
-</blockquote>
-<pre class="highlight shell"><code>  <span class="nv">API_KEY</span><span class="o">=</span><span class="s2">"M3175465"</span>
-  <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">"TkLPjz2dzzyoMZdkJqM1qLusyTizYPl0IeX7vHi+17+mlYEjyfnLIgqopAQ8Bnk2QnwcSYa4VuXY384EnGi3tA=="</span>
-</code></pre><pre class="highlight ruby"><code>  <span class="n">api_key</span> <span class="o">=</span> <span class="s2">"M3175465"</span>
-  <span class="n">secret_key</span> <span class="o">=</span> <span class="s2">"TkLPjz2dzzyoMZdkJqM1qLusyTizYPl0IeX7vHi+17+mlYEjyfnLIgqopAQ8Bnk2QnwcSYa4VuXY384EnGi3tA=="</span>
-</code></pre>
-<p>A Merchant will need an <code class="prettyprint">access_key</code> and a <code class="prettyprint">secret_key</code>, thoses key are supplied by Bitit, if you need to generate a keypair, please <a href="http://support.bitit.gift/hc/en-us/requests/new">reach us</a>.</p>
-
-<p>Bitpro API use <a href="https://github.com/diafygi/webcrypto-examples#hmac">HMAC encryption</a> as Authorization on all our endpoints.</p>
-
-<blockquote>
-<p>Date</p>
-</blockquote>
-<pre class="highlight shell"><code>  <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span>env <span class="nv">TZ</span><span class="o">=</span>GMT date <span class="s1">'+%a, %d %b %Y %H:%M:%S %Z'</span><span class="sb">`</span>
-  <span class="c">#Mon, 10 Apr 2017 04:43:12 GMT</span>
-</code></pre><pre class="highlight ruby"><code>  <span class="n">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">utc</span><span class="p">.</span><span class="nf">httpdate</span>
-  <span class="c1">#Mon, 10 Apr 2017 04:43:12 GMT</span>
-</code></pre>
-<ol>
-<li>The <code class="prettyprint">Date</code> header is always on GMT timezone with the following format <code class="prettyprint">Mon, 10 Apr 2017 04:43:12 GMT</code></li>
-</ol>
-
-<blockquote>
-<p>Content-MD5</p>
-</blockquote>
-<pre class="highlight shell"><code>  <span class="nv">PARAMS</span><span class="o">=</span><span class="s2">"address=2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr&amp;amount=0.12"</span>
-
-  <span class="nv">CONTENT_MD5</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n <span class="nv">$PARAMS</span> | openssl md5 -binary | base64<span class="sb">`</span>
-  <span class="c">#FBgiRcA+lHYYgLkAc2JX5g==</span>
-</code></pre><pre class="highlight ruby"><code>  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="ss">address: </span><span class="s1">'2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr'</span><span class="p">,</span>
-    <span class="ss">amount: </span><span class="mi">0</span><span class="o">.</span><span class="mi">12</span>
-  <span class="p">}</span>
-
-  <span class="n">encoded_params</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-  <span class="c1">#"address=2MzCEdXEzBaxCJQAq8igw4pUP1NSGAgzsUr&amp;amount=0.12"</span>
-
-  <span class="n">content_md5</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">base64digest</span><span class="p">(</span><span class="n">encoded_params</span><span class="p">)</span>
-  <span class="c1">#FBgiRcA+lHYYgLkAc2JX5g==</span>
-</code></pre>
-<ol>
-<li>The <code class="prettyprint">Content-MD5</code> header is a MD5 base64 digest of the url encoded params</li>
-</ol>
-
-<blockquote>
-<p>Signature</p>
-</blockquote>
-<pre class="highlight shell"><code>  <span class="nv">METHOD</span><span class="o">=</span><span class="s2">"POST"</span>
-  <span class="nv">URI</span><span class="o">=</span><span class="s2">"/api/v1/clients/BT-C962387/withdrawal"</span>
-
-  <span class="nv">CANONICAL_STRING</span><span class="o">=</span><span class="s2">"</span><span class="nv">$METHOD</span><span class="s2">,</span><span class="nv">$CONTENT_MD5</span><span class="s2">,</span><span class="nv">$URI</span><span class="s2">,</span><span class="nv">$DATE</span><span class="s2">"</span>
-  <span class="c">#POST,FBgiRcA+lHYYgLkAc2JX5g==,/api/v1/clients/BT-C962387/withdrawal,Mon, 10 Apr 2017 04:43:12 GMT</span>
-
-  <span class="nv">SIGNATURE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n <span class="nv">$CANONICAL_STRING</span> | openssl sha1 -hmac <span class="nv">$SECRET_KEY</span> -binary | base64<span class="sb">`</span>
-  <span class="c">#W81e6C9NeGYqau1RWhyGtw8YfoY=</span>
-</code></pre><pre class="highlight ruby"><code>  <span class="nb">method</span> <span class="o">=</span> <span class="s2">"POST"</span>
-  <span class="n">uri</span> <span class="o">=</span> <span class="s2">"/api/v1/clients/BT-C962387/withdrawal"</span>
-
-  <span class="n">canonical_string</span> <span class="o">=</span> <span class="p">[</span><span class="nb">method</span><span class="p">,</span> <span class="n">content_md5</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">date</span><span class="p">].</span><span class="nf">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
-  <span class="c1">#"POST,FBgiRcA+lHYYgLkAc2JX5g==,/api/v1/clients/BT-C962387/withdrawal,Mon, 10 Apr 2017 04:43:12 GMT"</span>
-
-  <span class="n">digest</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Digest</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'sha1'</span><span class="p">)</span>
-  <span class="n">signature</span> <span class="o">=</span> <span class="no">Base64</span><span class="p">.</span><span class="nf">strict_encode64</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">HMAC</span><span class="p">.</span><span class="nf">digest</span><span class="p">(</span><span class="n">digest</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">,</span> <span class="n">canonical_string</span><span class="p">))</span>
-  <span class="c1">#W81e6C9NeGYqau1RWhyGtw8YfoY=</span>
-</code></pre>
-<ol>
-<li>The &lsquo;Authorization&rsquo; is a string with the format <code class="prettyprint">Bitpro api_key:signature</code></li>
-</ol>
-
-<p>The signature is a base64 HMAC-SHA-1 of a canonical string the following format <code class="prettyprint">method,content_md5,uri,timestamp</code></p>
-
-<ul>
-<li>the <code class="prettyprint">method</code> in capitalized letters (GET, POST)</li>
-<li>the previously calculated <code class="prettyprint">content_md5</code></li>
-<li>the <code class="prettyprint">uri</code> of the request</li>
-<li>the previously calculated <code class="prettyprint">date</code> as a string</li>
-</ul>
-
-<p>all separated with commas (,)</p>
+<p>Bitpro&rsquo;s authenticaction is implemented on the <a href="https://github.com/acquia/http-hmac-spec">HTTP HMAC Spec</a></p>
 
 <h1 id="merchant-dashboard">Merchant dashboard</h1>
 
@@ -293,11 +189,72 @@ You will be able to look at your customers transactions, manage your merchant se
 
 <h1 id="payment-integration">Payment integration</h1>
 
-<p>Instructions about the integration of Bitit Pro cryptocurrencies payment solution into a merchant checkout page.</p>
+<p>Instructions about the integration of Bitpro cryptocurrencies payment solution into a merchant checkout page.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>Before starting your should have a Bitit pro merchant account with a valid <code class="prettyprint">merchant_id</code>.</p>
+<p>Before starting your should have a Bitpro merchant account with a valid <code class="prettyprint">merchant_id</code>.</p>
+
+<h2 id="using-direct-link">Using direct link</h2>
+
+<p>This integration will redirect your customer on an external payment page. It can be used as an iframe after whitelisting the authorized domains on your dashboard.</p>
+
+<h3 id="html-integration">HTML integration</h3>
+<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&amp;buyer_email=:buyer-email&amp;lang=:lang&amp;external_order_id=:external-order-id"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
+  Pay with Bitcoin
+<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+<ul>
+<li>Url params should be url-encoded</li>
+<li>Only <code class="prettyprint">merchant-id</code> is mandatory</li>
+<li>Link can be styled as you wish using class or inline css</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+<th>Mandatory</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>merchant-id</td>
+<td>String</td>
+<td>Unique merchant id (36 chars long)</td>
+<td>mandatory</td>
+</tr>
+<tr>
+<td>buyer_email</td>
+<td>String</td>
+<td>Customer email address</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>fiat_price</td>
+<td>Float</td>
+<td>Price</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>fiat_currency</td>
+<td>String</td>
+<td>Currency (only <code class="prettyprint">EUR</code>)</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>external_order_id</td>
+<td>String</td>
+<td>Custom merchant order id (max 200 chars long)</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>lang</td>
+<td>String</td>
+<td>Customer language (only <code class="prettyprint">fr</code> and <code class="prettyprint">en</code> supported)</td>
+<td>optional</td>
+</tr>
+</tbody></table>
 
 <h2 id="using-widget">Using Widget</h2>
 
@@ -305,11 +262,11 @@ You will be able to look at your customers transactions, manage your merchant se
 
 <h3 id="html-integration">HTML integration</h3>
 <pre class="highlight html"><code><span class="nt">&lt;div&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"bitit-iframe-trigger"</span> 
-          <span class="na">data-merchant-id=</span><span class="s">":merchant-id"</span> 
+  <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"bitit-iframe-trigger"</span>
+          <span class="na">data-merchant-id=</span><span class="s">":merchant-id"</span>
           <span class="na">data-external-order-id=</span><span class="s">":external-order-id"</span>
-          <span class="na">data-product-price=</span><span class="s">":item-price"</span> 
-          <span class="na">data-buyer-email=</span><span class="s">":customer-email"</span> 
+          <span class="na">data-product-price=</span><span class="s">":item-price"</span>
+          <span class="na">data-buyer-email=</span><span class="s">":customer-email"</span>
           <span class="na">data-lang=</span><span class="s">":customer-language"</span><span class="nt">&gt;</span>
     Pay with Bitcoin
   <span class="nt">&lt;/button&gt;</span>
@@ -362,21 +319,6 @@ You will be able to look at your customers transactions, manage your merchant se
 <aside class="warning">
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
 </aside>
-
-<h2 id="using-direct-link">Using direct link</h2>
-
-<p>This integration will redirect your customer on an external payment page.</p>
-
-<h3 id="html-integration">HTML integration</h3>
-<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&amp;buyer_email=:buyer-email&amp;lang=:lang&amp;external_order_id=:external-order-id"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
-  Pay with Bitcoin
-<span class="nt">&lt;/a&gt;</span>
-</code></pre>
-<ul>
-<li>Url params should be url-encoded</li>
-<li>Only <code class="prettyprint">merchant-id</code> is mandatory</li>
-<li>Link can be styled as you wish using class or inline css</li>
-</ul>
 
       </div>
       <div class="dark-box">
