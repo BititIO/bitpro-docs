@@ -62,7 +62,7 @@ errors|The detailed description of the errors
 
 # Authentication
 
-Bitpro's authenticaction is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
+Bitpro's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
 
 # Merchant dashboard
 
