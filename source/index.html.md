@@ -91,7 +91,7 @@ This integration will redirect your customer on an external payment page. It can
 
 ### HTML integration
 ```html
-<a href="https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&buyer_email=:buyer-email&lang=:lang&external_order_id=:external-order-id" target="_blank" rel="noopener noreferrer external">
+<a href="https://bitit.pro/app/checkout/:merchant-id?fiat_price_cents=:fiat-price-cents&buyer_email=:buyer-email&lang=:lang&external_order_id=:external-order-id" target="_blank" rel="noopener noreferrer external">
   Pay with Bitcoin
 </a>
 ```
@@ -103,10 +103,10 @@ This integration will redirect your customer on an external payment page. It can
 Attribute | Type | Description| Mandatory
 --------- | ---- | -----------|----------
 merchant-id|String|Unique merchant id (36 chars long)|mandatory
-buyer_email|String|Customer email address|optional
-fiat_price|Float|Price|optional
-fiat_currency|String|Currency (only `EUR`)| optional
-external_order_id|String|Custom merchant order id (max 200 chars long)|optional
+buyer-email|String|Customer email address|optional
+fiat-price-cents|Integer|Product price in cents|optional
+fiat-currency|String|Currency ISO code (only `eur` supported)| optional
+external-order-id|String|Custom merchant order id (max 200 chars long)|optional
 lang|String|Customer language (only `fr` and `en` supported)|optional
 
 ## Using Widget
@@ -119,7 +119,7 @@ This "in-page" integration of the payment widget rely on iframe technology and a
   <button id="bitit-iframe-trigger"
           data-merchant-id=":merchant-id"
           data-external-order-id=":external-order-id"
-          data-product-price=":item-price"
+          data-fiat-price-cents=":fiat-price-cents"
           data-buyer-email=":customer-email"
           data-lang=":customer-language">
     Pay with Bitcoin
@@ -132,16 +132,17 @@ This "in-page" integration of the payment widget rely on iframe technology and a
 * Trigger element should be wrapped by another HTML element
 * Trigger element should have the following id: `bitit-iframe-trigger`
 * Trigger element should have the following mandatory data attribute: `merchant-id`
-* Trigger element can have the following optionals data attributes: `external-order-id` `product-price` `buyer-email` `lang`
+* Trigger element can have the following optionals data attributes: `external-order-id` `fiat-price-cents` `buyer-email` `lang`, `fiat-currency`
 * If you would like to offer the possibility to close/remove the iframe, you can add another trigger element with the following id: `bitit-iframe-destroy`
 
-Attribute | Type | Description
---------- | ---- | -----------
-merchant-id|String|Unique merchant id (36 chars long) -- mandatory
-product-price|Float|Item price -- optional
-external-order-id|String|Custom merchant order id (max 200 chars long) -- optional
-buyer-email|String|Customer email address -- optional
-lang|String|Customer language (only `fr` and `en` supported) -- optional
+Attribute | Type | Description| Mandatory
+--------- | ---- | -----------|----------
+merchant-id|String|Unique merchant id (36 chars long)|mandatory
+buyer-email|String|Customer email address|optional
+fiat-price-cents|Integer|Product price in cents|optional
+fiat-currency|String|Currency ISO code (only `eur` supported)| optional
+external-order-id|String|Custom merchant order id (max 200 chars long)|optional
+lang|String|Customer language (only `fr` and `en` supported)|optional
 
 <aside class="warning">
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
