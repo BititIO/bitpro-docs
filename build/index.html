@@ -122,70 +122,65 @@
 
 <p>Bitpro provide a simple and robust REST-ful API to integrate crypto-currency technologies.</p>
 
+<p>Before starting you&rsquo;ll need to request an account. You&rsquo;ll receive an email to chose you password.</p>
+
+<ul>
+<li>Login to https://bitit.pro with you email and password</li>
+<li>Configure your application on settings</li>
+</ul>
+
 <h2 id="bitpro-api-endpoints">Bitpro API endpoints</h2>
-<pre class="highlight shell"><code>  curl -X GET https://sandbox.bitit.pro/api/v1/ping
-</code></pre><pre class="highlight ruby"><code>  <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://sandbox.bitit.pro/api/v1/ping'</span><span class="p">)</span>
-</code></pre>
-<blockquote>
-<p>Example Response</p>
-</blockquote>
-<pre class="highlight shell"><code>  <span class="o">{</span>
-      <span class="s2">"status"</span>: <span class="s2">"ok"</span>,
-      <span class="s2">"environment"</span>: <span class="s2">"sandbox"</span>
-  <span class="o">}</span>
-</code></pre><pre class="highlight ruby"><code>  <span class="p">{</span>
-      <span class="s2">"status"</span> <span class="o">=&gt;</span> <span class="s2">"ok"</span><span class="p">,</span>
-      <span class="s2">"environment"</span> <span class="o">=&gt;</span> <span class="s2">"sandbox"</span>
-  <span class="p">}</span>
-</code></pre>
-<p>Bitpro as 2 separates environments available for development and production. For security reasons all the requests are made over HTTPS.</p>
+
+<p>Bitpro as 2 separates environments available for test and production.
+Both environments use HTTPS to encrypt requests.</p>
 
 <h3 id="production-environment">Production Environment</h3>
 
 <p>The Bitpro production endpoint is live and used by partners.</p>
 
 <ul>
-<li>Production API: <code class="prettyprint">https://bitit.pro/api/v1</code> <strong><em>(no ready yet)</em></strong></li>
+<li>Production API: <code class="prettyprint">https://bitit.pro</code> <strong><em>(no ready yet)</em></strong></li>
 </ul>
 
 <h3 id="sandbox-environment">Sandbox Environment</h3>
 
-<p>The Bitpro sandbox environment is entirely separated from Bitpro production and there is no overlap in data and accounts. You will need to create a sandbox account.</p>
+<p>The Bitpro sandbox environment is entirely separated from Bitpro production and there is no overlap in data and accounts. You will need to request a sandbox account.</p>
 
 <ul>
-<li>Test API: <code class="prettyprint">https://sandbox.pro/api/v1</code></li>
+<li>Test API: <code class="prettyprint">https://sandbox.bitit.pro</code></li>
 </ul>
 
 <p>This environment is connected to the Bitcoin TestNet which you can use <a href="http://tbtc.blockr.io/">Blockr</a> to navigate. To get some test coins, try a <a href="http://tpfaucet.appspot.com/">faucet</a> or talk to us.</p>
 
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Value</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>errors</td>
-<td>The detailed description of the errors</td>
-</tr>
-</tbody></table>
-
-<h1 id="authentication">Authentication</h1>
-
-<p>Bitpro&rsquo;s authentication is implemented on the <a href="https://github.com/acquia/http-hmac-spec">HTTP HMAC Spec</a></p>
-
 <h1 id="merchant-dashboard">Merchant dashboard</h1>
 
-<p>Merchant dashboard is available on the following url: <a href="https://bitit.pro/dashboard">https://bitit.pro/dashboard</a>.
+<p>Merchant dashboard is available on the following url: <a href="https://bitit.pro">https://bitit.pro</a>.
 You will be able to look at your customers transactions, manage your merchant settings (webhook urls, domains authorization, custom logo, custom color) and manage your team.</p>
+
+<h2 id="settings">Settings</h2>
+
+<aside class="notice">
+Merchant ID will be requested each time you generate a payment link or query the API. It&rsquo;s your unique merchant ID.
+</aside>
 
 <aside class="notice">
   Webhook urls need to be configured in order to notify your system with transaction updates.
+  You&rsquo;ll find more informations below
 </aside>
 
 <aside class="notice">
   Merchant integration can be customized with a logo or a color, this parameters are available in your dashboard settings page.
 </aside>
+
+<aside class="notice">
+  Iframe allowed domains have to be whitelisted
+</aside>
+
+<h1 id="authentication">Authentication</h1>
+
+<p>Bitpro&rsquo;s authentication is implemented on the <a href="https://github.com/acquia/http-hmac-spec">HTTP HMAC Spec</a></p>
+
+<p>More to come &hellip;</p>
 
 <h1 id="payment-integration">Payment integration</h1>
 
@@ -193,7 +188,8 @@ You will be able to look at your customers transactions, manage your merchant se
 
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>Before starting your should have a Bitpro merchant account with a valid <code class="prettyprint">merchant_id</code>.</p>
+<p>Before starting your should have a Bitpro merchant account with a valid <code class="prettyprint">merchant ID</code>.
+You&rsquo;ll find it on <a href="https://bitit.pro/dashboard/merchant">https://bitit.pro/dashboard/merchant</a></p>
 
 <h2 id="using-direct-link">Using direct link</h2>
 
@@ -332,6 +328,42 @@ You will be able to look at your customers transactions, manage your merchant se
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
 </aside>
 
+<h2 id="webhooks">Webhooks</h2>
+
+<p>During a payment life there is different states and you can configure a webhook for each state.
+On you dashboard settings you can add as many webhooks as you want by selecting a state and adding the url you want to receive the webhook on.</p>
+
+<p>Different states are:
+- <code class="prettyprint">charge:seen</code> when the cryptocurrency transaction is first seen on the blockchain
+- <code class="prettyprint">charge:timedout</code> when the time expired before the transaction is seen
+- <code class="prettyprint">charge:confirmed</code> when the payment is fully confirmed
+- <code class="prettyprint">charge:failed</code> when the payment failed (wrong amount, errors &hellip;)</p>
+<pre class="highlight plaintext"><code>{
+  "delivery_attempt": 1,
+  "event": {
+              "id": "67c0e853-bb77-46ce-ae20-09011299cb22",
+              "type": "charge:seen",
+              "occured_at" :"2018-05-10T12:22:35.550Z",
+              "data": {
+                        "fiat_price":42.0,
+                        "expires_at":"2018-05-10T12:32:35Z",
+                        "created_at":"2018-05-10T12:12:35Z",
+                        "addresses":[
+                                      {
+                                        "address":"1BTCADDR58375dace00e01c55b5d5a29c2"
+                                      }
+                                    ],
+                        "payments":[
+                                      {
+                                        "txid":"5ec68db848026b167ceb584f8e0b466601663a9de739951f79cb964aea06fe3e",
+                                        "value":"0.494093233",
+                                        "state":"confirmed"
+                                      }
+                        ]
+                      }
+            }
+}
+</code></pre>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
