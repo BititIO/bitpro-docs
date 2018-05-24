@@ -14,68 +14,62 @@ search: true
 
 Bitpro provide a simple and robust REST-ful API to integrate crypto-currency technologies.
 
+Before starting you'll need to request an account. You'll receive an email to chose you password.
+
+- Login to https://bitit.pro with you email and password
+- Configure your application on settings
+
+
 ## Bitpro API endpoints
 
-```shell
-  curl -X GET https://sandbox.bitit.pro/api/v1/ping
-```
-```ruby
-  HTTParty.get('https://sandbox.bitit.pro/api/v1/ping')
-```
-
-  > Example Response
-
-```shell
-  {
-      "status": "ok",
-      "environment": "sandbox"
-  }
-```
-```ruby
-  {
-      "status" => "ok",
-      "environment" => "sandbox"
-  }
-```
-
-Bitpro as 2 separates environments available for development and production. For security reasons all the requests are made over HTTPS.
+Bitpro as 2 separates environments available for test and production.
+Both environments use HTTPS to encrypt requests.
 
 
 ### Production Environment
 
 The Bitpro production endpoint is live and used by partners.
 
-* Production API: `https://bitit.pro/api/v1` **_(no ready yet)_**
+* Production API: `https://bitit.pro` **_(no ready yet)_**
 
 
 ### Sandbox Environment
 
-The Bitpro sandbox environment is entirely separated from Bitpro production and there is no overlap in data and accounts. You will need to create a sandbox account.
+The Bitpro sandbox environment is entirely separated from Bitpro production and there is no overlap in data and accounts. You will need to request a sandbox account.
 
-* Test API: `https://sandbox.pro/api/v1`
+* Test API: `https://sandbox.bitit.pro`
 
 This environment is connected to the Bitcoin TestNet which you can use [Blockr](http://tbtc.blockr.io/) to navigate. To get some test coins, try a [faucet](http://tpfaucet.appspot.com/) or talk to us.
 
-Parameter | Value
---------- | -----
-errors|The detailed description of the errors
-
-# Authentication
-
-Bitpro's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
-
 # Merchant dashboard
 
-Merchant dashboard is available on the following url: [https://bitit.pro/dashboard](https://bitit.pro/dashboard).
+Merchant dashboard is available on the following url: [https://bitit.pro](https://bitit.pro).
 You will be able to look at your customers transactions, manage your merchant settings (webhook urls, domains authorization, custom logo, custom color) and manage your team.
+
+## Settings
+
+<aside class="notice">
+Merchant ID will be requested each time you generate a payment link or query the API. It's your unique merchant ID.
+</aside>
 
 <aside class="notice">
   Webhook urls need to be configured in order to notify your system with transaction updates.
+  You'll find more informations below
 </aside>
 
 <aside class="notice">
   Merchant integration can be customized with a logo or a color, this parameters are available in your dashboard settings page.
 </aside>
+
+<aside class="notice">
+  Iframe allowed domains have to be whitelisted
+</aside>
+
+# Authentication
+
+Bitpro's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
+
+More to come ...
 
 # Payment integration
 
@@ -83,7 +77,8 @@ Instructions about the integration of Bitpro cryptocurrencies payment solution i
 
 ## Prerequisites
 
-Before starting your should have a Bitpro merchant account with a valid `merchant_id`.
+Before starting your should have a Bitpro merchant account with a valid `merchant ID`.
+You'll find it on [https://bitit.pro/dashboard/merchant](https://bitit.pro/dashboard/merchant)
 
 ## Using direct link
 
@@ -147,3 +142,41 @@ lang|String|Customer language (only `fr` and `en` supported)|optional
 <aside class="warning">
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
 </aside>
+
+## Webhooks
+During a payment life there is different states and you can configure a webhook for each state.
+On you dashboard settings you can add as many webhooks as you want by selecting a state and adding the url you want to receive the webhook on.
+
+Different states are:
+- `charge:seen` when the cryptocurrency transaction is first seen on the blockchain
+- `charge:timedout` when the time expired before the transaction is seen
+- `charge:confirmed` when the payment is fully confirmed
+- `charge:failed` when the payment failed (wrong amount, errors ...)
+
+```
+{
+  "delivery_attempt": 1,
+  "event": {
+              "id": "67c0e853-bb77-46ce-ae20-09011299cb22",
+              "type": "charge:seen",
+              "occured_at" :"2018-05-10T12:22:35.550Z",
+              "data": {
+                        "fiat_price":42.0,
+                        "expires_at":"2018-05-10T12:32:35Z",
+                        "created_at":"2018-05-10T12:12:35Z",
+                        "addresses":[
+                                      {
+                                        "address":"1BTCADDR58375dace00e01c55b5d5a29c2"
+                                      }
+                                    ],
+                        "payments":[
+                                      {
+                                        "txid":"5ec68db848026b167ceb584f8e0b466601663a9de739951f79cb964aea06fe3e",
+                                        "value":"0.494093233",
+                                        "state":"confirmed"
+                                      }
+                        ]
+                      }
+            }
+}
+```

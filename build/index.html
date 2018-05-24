@@ -172,7 +172,7 @@
 
 <h1 id="authentication">Authentication</h1>
 
-<p>Bitpro&rsquo;s authenticaction is implemented on the <a href="https://github.com/acquia/http-hmac-spec">HTTP HMAC Spec</a></p>
+<p>Bitpro&rsquo;s authentication is implemented on the <a href="https://github.com/acquia/http-hmac-spec">HTTP HMAC Spec</a></p>
 
 <h1 id="merchant-dashboard">Merchant dashboard</h1>
 
@@ -200,7 +200,7 @@ You will be able to look at your customers transactions, manage your merchant se
 <p>This integration will redirect your customer on an external payment page. It can be used as an iframe after whitelisting the authorized domains on your dashboard.</p>
 
 <h3 id="html-integration">HTML integration</h3>
-<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price=:product-price&amp;buyer_email=:buyer-email&amp;lang=:lang&amp;external_order_id=:external-order-id"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://bitit.pro/app/checkout/:merchant-id?fiat_price_cents=:fiat-price-cents&amp;buyer_email=:buyer-email&amp;lang=:lang&amp;external_order_id=:external-order-id"</span> <span class="na">target=</span><span class="s">"_blank"</span> <span class="na">rel=</span><span class="s">"noopener noreferrer external"</span><span class="nt">&gt;</span>
   Pay with Bitcoin
 <span class="nt">&lt;/a&gt;</span>
 </code></pre>
@@ -225,25 +225,25 @@ You will be able to look at your customers transactions, manage your merchant se
 <td>mandatory</td>
 </tr>
 <tr>
-<td>buyer_email</td>
+<td>buyer-email</td>
 <td>String</td>
 <td>Customer email address</td>
 <td>optional</td>
 </tr>
 <tr>
-<td>fiat_price</td>
-<td>Float</td>
-<td>Price</td>
+<td>fiat-price-cents</td>
+<td>Integer</td>
+<td>Product price in cents</td>
 <td>optional</td>
 </tr>
 <tr>
-<td>fiat_currency</td>
+<td>fiat-currency</td>
 <td>String</td>
-<td>Currency (only <code class="prettyprint">EUR</code>)</td>
+<td>Currency ISO code (only <code class="prettyprint">eur</code> supported)</td>
 <td>optional</td>
 </tr>
 <tr>
-<td>external_order_id</td>
+<td>external-order-id</td>
 <td>String</td>
 <td>Custom merchant order id (max 200 chars long)</td>
 <td>optional</td>
@@ -265,7 +265,7 @@ You will be able to look at your customers transactions, manage your merchant se
   <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"bitit-iframe-trigger"</span>
           <span class="na">data-merchant-id=</span><span class="s">":merchant-id"</span>
           <span class="na">data-external-order-id=</span><span class="s">":external-order-id"</span>
-          <span class="na">data-product-price=</span><span class="s">":item-price"</span>
+          <span class="na">data-fiat-price-cents=</span><span class="s">":fiat-price-cents"</span>
           <span class="na">data-buyer-email=</span><span class="s">":customer-email"</span>
           <span class="na">data-lang=</span><span class="s">":customer-language"</span><span class="nt">&gt;</span>
     Pay with Bitcoin
@@ -278,7 +278,7 @@ You will be able to look at your customers transactions, manage your merchant se
 <li>Trigger element should be wrapped by another HTML element</li>
 <li>Trigger element should have the following id: <code class="prettyprint">bitit-iframe-trigger</code></li>
 <li>Trigger element should have the following mandatory data attribute: <code class="prettyprint">merchant-id</code></li>
-<li>Trigger element can have the following optionals data attributes: <code class="prettyprint">external-order-id</code> <code class="prettyprint">product-price</code> <code class="prettyprint">buyer-email</code> <code class="prettyprint">lang</code></li>
+<li>Trigger element can have the following optionals data attributes: <code class="prettyprint">external-order-id</code> <code class="prettyprint">fiat-price-cents</code> <code class="prettyprint">buyer-email</code> <code class="prettyprint">lang</code>, <code class="prettyprint">fiat-currency</code></li>
 <li>If you would like to offer the possibility to close/remove the iframe, you can add another trigger element with the following id: <code class="prettyprint">bitit-iframe-destroy</code></li>
 </ul>
 
@@ -287,32 +287,44 @@ You will be able to look at your customers transactions, manage your merchant se
 <th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
+<th>Mandatory</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>merchant-id</td>
 <td>String</td>
-<td>Unique merchant id (36 chars long) &ndash; mandatory</td>
-</tr>
-<tr>
-<td>product-price</td>
-<td>Float</td>
-<td>Item price &ndash; optional</td>
-</tr>
-<tr>
-<td>external-order-id</td>
-<td>String</td>
-<td>Custom merchant order id (max 200 chars long) &ndash; optional</td>
+<td>Unique merchant id (36 chars long)</td>
+<td>mandatory</td>
 </tr>
 <tr>
 <td>buyer-email</td>
 <td>String</td>
-<td>Customer email address &ndash; optional</td>
+<td>Customer email address</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>fiat-price-cents</td>
+<td>Integer</td>
+<td>Product price in cents</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>fiat-currency</td>
+<td>String</td>
+<td>Currency ISO code (only <code class="prettyprint">eur</code> supported)</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>external-order-id</td>
+<td>String</td>
+<td>Custom merchant order id (max 200 chars long)</td>
+<td>optional</td>
 </tr>
 <tr>
 <td>lang</td>
 <td>String</td>
-<td>Customer language (only <code class="prettyprint">fr</code> and <code class="prettyprint">en</code> supported) &ndash; optional</td>
+<td>Customer language (only <code class="prettyprint">fr</code> and <code class="prettyprint">en</code> supported)</td>
+<td>optional</td>
 </tr>
 </tbody></table>
 
