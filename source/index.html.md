@@ -69,7 +69,40 @@ Merchant ID will be requested each time you generate a payment link or query the
 
 Bitpro's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
 
-More to come ...
+## Simple shell example
+
+```shell
+#!/bin/bash
+
+PRIVATE_KEY=$YOUR_PRIVATE_KEY
+ID=$YOUR_MERCHANT_ID
+
+HOST=${YOUR_HOST:-sandbox.bitit.pro}
+PATH_INFO=${YOUR_PATH:-/mapi/charges}
+QUERY_STRING=${YOUR_QUERY_STRING:-page=1}
+
+NONCE=$(uuidgen)
+REALM='Bitpro'
+TIME=$(date +%s)
+
+STRING_TO_SIGN=\
+"GET
+$HOST
+$PATH_INFO
+$QUERY_STRING
+id=${ID}&nonce=${NONCE}&realm=${REALM}&version=2.0
+$TIME"
+
+HMAC_KEY=$(echo -n $PRIVATE_KEY | openssl base64 -d -A)
+SIGNATURE=$(echo -n "$STRING_TO_SIGN" | openssl dgst -sha256 -hmac "$HMAC_KEY" -binary | openssl base64 -A)
+
+AUTHORIZATION="Authorization: acquia-http-hmac realm=\"${REALM}\",id=\"${ID}\",nonce=\"${NONCE}\",version=\"2.0\",headers=\"\",signature=\"${SIGNATURE}\""
+
+curl -XGET "http://${HOST}${PATH_INFO}?${QUERY_STRING}" \
+  -H "$AUTHORIZATION" \
+  -H 'Accept: application/vnd.bitpro-mapi-20180503+json' \
+  -H "X-Authorization-timestamp: ${TIME}"
+```
 
 # Payment integration
 
