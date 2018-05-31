@@ -65,45 +65,6 @@ Merchant ID will be requested each time you generate a payment link or query the
   Iframe allowed domains have to be whitelisted
 </aside>
 
-# Authentication
-
-Bitpro's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
-
-## Simple shell example
-
-```shell
-#!/bin/bash
-
-PRIVATE_KEY=$YOUR_PRIVATE_KEY
-ID=$YOUR_MERCHANT_ID
-
-HOST=${YOUR_HOST:-sandbox.bitit.pro}
-PATH_INFO=${YOUR_PATH:-/mapi/charges}
-QUERY_STRING=${YOUR_QUERY_STRING:-page=1}
-
-NONCE=$(uuidgen | tr 'ABCDEF' 'abcdef')
-REALM='Bitpro'
-TIME=$(date +%s)
-
-STRING_TO_SIGN=\
-"GET
-$HOST
-$PATH_INFO
-$QUERY_STRING
-id=${ID}&nonce=${NONCE}&realm=${REALM}&version=2.0
-$TIME"
-
-HMAC_KEY=$(echo -n "$PRIVATE_KEY" | openssl base64 -d -A | hexdump -v -e '1/1 "%02x"')
-SIGNATURE=$(echo -n "$STRING_TO_SIGN" | openssl dgst -sha256 -mac HMAC -macopt hexkey:$HMAC_KEY -binary | openssl base64 -A)
-
-AUTHORIZATION="Authorization: acquia-http-hmac realm=\"${REALM}\",id=\"${ID}\",nonce=\"${NONCE}\",version=\"2.0\",headers=\"\",signature=\"${SIGNATURE}\""
-
-curl "https://${HOST}${PATH_INFO}?${QUERY_STRING}" \
-  -H "$AUTHORIZATION" \
-  -H 'Accept: application/vnd.bitpro-mapi-20180503+json' \
-  -H "X-Authorization-timestamp: ${TIME}"
-```
-
 # Payment integration
 
 Instructions about the integration of Bitpro cryptocurrencies payment solution into a merchant checkout page.
@@ -213,3 +174,65 @@ Different states are:
             }
 }
 ```
+
+# Merchant API
+
+```shell
+#!/bin/bash
+
+PRIVATE_KEY=$YOUR_PRIVATE_KEY
+ID=$YOUR_MERCHANT_ID
+
+HOST=${YOUR_HOST:-sandbox.bitit.pro}
+PATH_INFO=${YOUR_PATH:-/mapi/charges}
+QUERY_STRING=${YOUR_QUERY_STRING:-page=1}
+
+NONCE=$(uuidgen | tr 'ABCDEF' 'abcdef')
+REALM='Bitpro'
+TIME=$(date +%s)
+
+STRING_TO_SIGN=\
+"GET
+$HOST
+$PATH_INFO
+$QUERY_STRING
+id=${ID}&nonce=${NONCE}&realm=${REALM}&version=2.0
+$TIME"
+
+HMAC_KEY=$(echo -n "$PRIVATE_KEY" | openssl base64 -d -A | hexdump -v -e '1/1 "%02x"')
+SIGNATURE=$(echo -n "$STRING_TO_SIGN" | openssl dgst -sha256 -mac HMAC -macopt hexkey:$HMAC_KEY -binary | openssl base64 -A)
+
+AUTHORIZATION="Authorization: acquia-http-hmac realm=\"${REALM}\",id=\"${ID}\",nonce=\"${NONCE}\",version=\"2.0\",headers=\"\",signature=\"${SIGNATURE}\""
+
+curl "https://${HOST}${PATH_INFO}?${QUERY_STRING}" \
+  -H "$AUTHORIZATION" \
+  -H 'Accept: application/vnd.bitpro-mapi-20180503+json' \
+  -H "X-Authorization-timestamp: ${TIME}"
+```
+
+Bitpro api's authentication is implemented on the [HTTP HMAC Spec](https://github.com/acquia/http-hmac-spec)
+
+You'll need you merchant ID and your private key both available on your dashboard.
+
+All path are prefixed with `/mapi` for merchant api.
+`https://sandbox.bitit.pro/mapi/charges`
+
+Param|Description
+---- | ----------
+NONCE| a random and uniq value
+REALM| always set to `Bitpro`
+TIME | the number of seconds since 00:00:00 UTC on January 1, 1970
+
+
+## Routes
+
+### List charges
+`GET /charges` returns the list of all charges
+
+<aside class="notice">
+  This call is paginated with the params `page`
+</aside>
+
+### Get on charge
+
+`GET /charges/:charge_id` return only one charge
