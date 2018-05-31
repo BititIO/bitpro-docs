@@ -190,7 +190,7 @@ Merchant ID will be requested each time you generate a payment link or query the
 <span class="nv">PATH_INFO</span><span class="o">=</span><span class="k">${</span><span class="nv">YOUR_PATH</span><span class="k">:-</span><span class="p">/mapi/charges</span><span class="k">}</span>
 <span class="nv">QUERY_STRING</span><span class="o">=</span><span class="k">${</span><span class="nv">YOUR_QUERY_STRING</span><span class="k">:-</span><span class="nv">page</span><span class="p">=1</span><span class="k">}</span>
 
-<span class="nv">NONCE</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="k">)</span>
+<span class="nv">NONCE</span><span class="o">=</span><span class="k">$(</span>uuidgen | tr <span class="s1">'ABCDEF'</span> <span class="s1">'abcdef'</span><span class="k">)</span>
 <span class="nv">REALM</span><span class="o">=</span><span class="s1">'Bitpro'</span>
 <span class="nv">TIME</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
 
