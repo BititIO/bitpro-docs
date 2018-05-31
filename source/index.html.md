@@ -93,12 +93,12 @@ $QUERY_STRING
 id=${ID}&nonce=${NONCE}&realm=${REALM}&version=2.0
 $TIME"
 
-HMAC_KEY=$(echo -n $PRIVATE_KEY | openssl base64 -d -A)
-SIGNATURE=$(echo -n "$STRING_TO_SIGN" | openssl dgst -sha256 -hmac "$HMAC_KEY" -binary | openssl base64 -A)
+HMAC_KEY=$(echo -n "$PRIVATE_KEY" | openssl base64 -d -A | hexdump -v -e '1/1 "%02x"')
+SIGNATURE=$(echo -n "$STRING_TO_SIGN" | openssl dgst -sha256 -mac HMAC -macopt hexkey:$HMAC_KEY -binary | openssl base64 -A)
 
 AUTHORIZATION="Authorization: acquia-http-hmac realm=\"${REALM}\",id=\"${ID}\",nonce=\"${NONCE}\",version=\"2.0\",headers=\"\",signature=\"${SIGNATURE}\""
 
-curl -XGET "http://${HOST}${PATH_INFO}?${QUERY_STRING}" \
+curl "https://${HOST}${PATH_INFO}?${QUERY_STRING}" \
   -H "$AUTHORIZATION" \
   -H 'Accept: application/vnd.bitpro-mapi-20180503+json' \
   -H "X-Authorization-timestamp: ${TIME}"
