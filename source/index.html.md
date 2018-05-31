@@ -81,7 +81,7 @@ HOST=${YOUR_HOST:-sandbox.bitit.pro}
 PATH_INFO=${YOUR_PATH:-/mapi/charges}
 QUERY_STRING=${YOUR_QUERY_STRING:-page=1}
 
-NONCE=$(uuidgen)
+NONCE=$(uuidgen | tr 'ABCDEF' 'abcdef')
 REALM='Bitpro'
 TIME=$(date +%s)
 
