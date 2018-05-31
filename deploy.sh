@@ -19,6 +19,9 @@ Options:
 
 bundle exec middleman build --clean
 
+# Dirty hack to keep the CNAME set up even after automatic deployment
+echo "docs.bitit.pro" > build/CNAME
+
 parse_args() {
   # Set args from a local environment file.
   if [ -e ".env" ]; then
