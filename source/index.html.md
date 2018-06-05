@@ -62,6 +62,11 @@ Merchant ID will be requested each time you generate a payment link or query the
 </aside>
 
 <aside class="notice">
+  Return url is the url where the user can be redirected from the payment page.
+  Not available with iframe.
+</aside>
+
+<aside class="notice">
   Iframe allowed domains have to be whitelisted
 </aside>
 
