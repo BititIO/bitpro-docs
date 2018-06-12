@@ -62,7 +62,8 @@ Merchant ID will be requested each time you generate a payment link or query the
 </aside>
 
 <aside class="notice">
-  Return url is the url where the user can be redirected from the payment page.
+  Return url is the url where the user can be redirected from the payment page. 
+  You can set a global return url in your dashboard or directly on your order (if you set it directly in your order via `return_url` params, it will override the eventual return url set globaly in merchant).
   Not available with iframe.
 </aside>
 
@@ -85,7 +86,7 @@ This integration will redirect your customer on an external payment page. It can
 
 ### HTML integration
 ```html
-<a href="https://bitit.pro/app/checkout/:merchant-id?fiat_price_cents=:fiat-price-cents&buyer_email=:buyer-email&lang=:lang&external_order_id=:external-order-id" target="_blank" rel="noopener noreferrer external">
+<a href="https://bitit.pro/app/checkout/:merchant-id?fiat_price_cents=:fiat-price-cents&buyer_email=:buyer-email&lang=:lang&external_order_id=:external-order-id&return_url=:return-url" target="_blank" rel="noopener noreferrer external">
   Pay with Bitcoin
 </a>
 ```
@@ -93,6 +94,7 @@ This integration will redirect your customer on an external payment page. It can
 * Url params should be url-encoded
 * Only `merchant-id` is mandatory
 * Link can be styled as you wish using class or inline css
+* Return url should use SSL only (https)
 
 Attribute | Type | Description| Mandatory
 --------- | ---- | -----------|----------
@@ -102,6 +104,7 @@ fiat-price-cents|Integer|Product price in cents|optional
 fiat-currency|String|Currency ISO code (only `eur` supported)| optional
 external-order-id|String|Custom merchant order id (max 200 chars long)|optional
 lang|String|Customer language (only `fr` and `en` supported)|optional
+return-url|String|Custom redirection url for the payment (https only)|optional
 
 ## Using Widget
 
@@ -142,6 +145,10 @@ lang|String|Customer language (only `fr` and `en` supported)|optional
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
 </aside>
 
+<aside class="warning">
+  Iframe integration does not support return_url.
+</aside>
+
 ## Webhooks
 During a payment life there is different states and you can configure a webhook for each state.
 On you dashboard settings you can add as many webhooks as you want by selecting a state and adding the url you want to receive the webhook on.
@@ -152,7 +159,7 @@ Different states are:
 - `charge:confirmed` when the payment is fully confirmed
 - `charge:failed` when the payment failed (wrong amount, errors ...)
 
-```
+```json
 {
   "delivery_attempt": 1,
   "event": {
