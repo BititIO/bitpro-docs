@@ -103,7 +103,7 @@ buyer-email|String|Customer email address|optional
 fiat-price-cents|Integer|Product price in cents|optional
 fiat-currency|String|Currency ISO code (only `eur` supported)| optional
 external-order-id|String|Custom merchant order id (max 200 chars long)|optional
-lang|String|Customer language (only `fr` and `en` supported)|optional
+lang|String|Customer language (`fr`, `en` and `nor` supported)|optional
 return-url|String|Custom redirection url for the payment (https only)|optional
 
 ## Using Widget
@@ -137,9 +137,9 @@ Attribute | Type | Description| Mandatory
 merchant-id|String|Unique merchant id (36 chars long)|mandatory
 buyer-email|String|Customer email address|optional
 fiat-price-cents|Integer|Product price in cents|optional
-fiat-currency|String|Currency ISO code (only `eur` supported)| optional
+fiat-currency|String|Currency ISO code (only `eur` supported)|optional
 external-order-id|String|Custom merchant order id (max 200 chars long)|optional
-lang|String|Customer language (only `fr` and `en` supported)|optional
+lang|String|Customer language (`fr`, `en` and `nor` supported)|optional
 
 <aside class="warning">
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
