@@ -62,7 +62,7 @@ Merchant ID will be requested each time you generate a payment link or query the
 </aside>
 
 <aside class="notice">
-  Return url is the url where the user can be redirected from the payment page. 
+  Return url is the url where the user can be redirected from the payment page.
   You can set a global return url in your dashboard or directly on your order (if you set it directly in your order via `return_url` params, it will override the eventual return url set globaly in merchant).
   Not available with iframe.
 </aside>
@@ -103,7 +103,7 @@ buyer-email|String|Customer email address|optional
 fiat-price-cents|Integer|Product price in cents|optional
 fiat-currency|String|Currency ISO code (only `eur` supported)| optional
 external-order-id|String|Custom merchant order id (max 200 chars long)|optional
-lang|String|Customer language (`fr`, `en` and `nor` supported)|optional
+lang|String|Customer language (`fr`, `en` and `no` supported)|optional
 return-url|String|Custom redirection url for the payment (https only)|optional
 
 ## Using Widget
@@ -139,7 +139,7 @@ buyer-email|String|Customer email address|optional
 fiat-price-cents|Integer|Product price in cents|optional
 fiat-currency|String|Currency ISO code (only `eur` supported)|optional
 external-order-id|String|Custom merchant order id (max 200 chars long)|optional
-lang|String|Customer language (`fr`, `en` and `nor` supported)|optional
+lang|String|Customer language (`fr`, `en` and `no` supported)|optional
 
 <aside class="warning">
   Iframe integration requires that you set all the domains using the iframe in your merchant settings. Settings are available on your merchant dashboard.
