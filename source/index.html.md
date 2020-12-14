@@ -248,3 +248,7 @@ TIME | the number of seconds since 00:00:00 UTC on January 1, 1970
 ### Get on charge
 
 `GET /charges/:charge_id` return only one charge
+
+### Get on charge by merchant id
+
+`GET /charges/:merchant_id/external` return only one charge by merchant_id
